@@ -1,4 +1,5 @@
-// API request and callback--------------------------------------------------
+//------------------------------------------------------------------
+// API request and callback-----------------------------------------
 // -----------------------------------------------------------------
 
 var url = 'https://randomuser.me/api/?nat=us';
@@ -33,7 +34,7 @@ var callBack = function (json, textStatus) {
 $.getJSON(url, dataOptions, callBack);
 
 
-
+//-------------------------------------------------------------------
 // Modal Scripting--------------------------------------------------
 // -----------------------------------------------------------------
 function modal() {
@@ -65,7 +66,9 @@ function modal() {
   }
 }
 //-------------------------------------------------------------------------------------
-/* Bulds the modal window based on click I tried not to use another API request */
+/* Bulds the modal window based on click. I tried not to use another API request */
+//-------------------------------------------------------------------------------------
+
 function modualBuilder(e) {
   var users = window.results;
   var target = e;
@@ -79,7 +82,7 @@ function modualBuilder(e) {
 
       var city = "<h3>" + users[i].location.city + '</h3>' + "<hr>";
       var phoneNumber = "<h3>" + users[i].phone + '</h3>';
-      var address = "<h3>" + users[i].location.street + ', ' + users[i].location.state + ' ' + users[i].location.postcode + '</h3>';
+      var address = "<h3>" + users[i].location.street + ', ' +  abbrRegion(users[i].location.state, 'abbr') + ' ' + users[i].location.postcode + '</h3>';
       var birthday = "<h3>Birthday: " + dobArrange(users[i].dob) + '</h3>';
 
       var placeHTML = picture + name + email + city + phoneNumber + address + birthday;
@@ -89,7 +92,8 @@ function modualBuilder(e) {
   modal.style.display = 'block';
 }
 //-------------------------------------------------------------------------------------
-/* API .dob value was not formatted the way I needed so this rearranges it with slice()  */
+/* API .dob value was not formatted the way I needed, so this rearranges it with slice() Ex: 1992-11-24 => 11/24/1992  */
+//-------------------------------------------------------------------------------------
 
 function dobArrange(dob) {
   var year = dob.slice(0, 4);
@@ -101,3 +105,106 @@ function dobArrange(dob) {
 
 
 //-------------------------------------------------------------------------------------
+//Convert State name to Shorter name(Thanks! https://gist.github.com/calebgrove/c285a9510948b633aa47)--------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
+
+function abbrRegion(input, to) {
+    var states = [
+        ['Alabama', 'AL'],
+        ['Alaska', 'AK'],
+        ['American Samoa', 'AS'],
+        ['Arizona', 'AZ'],
+        ['Arkansas', 'AR'],
+        ['Armed Forces Americas', 'AA'],
+        ['Armed Forces Europe', 'AE'],
+        ['Armed Forces Pacific', 'AP'],
+        ['California', 'CA'],
+        ['Colorado', 'CO'],
+        ['Connecticut', 'CT'],
+        ['Delaware', 'DE'],
+        ['District Of Columbia', 'DC'],
+        ['Florida', 'FL'],
+        ['Georgia', 'GA'],
+        ['Guam', 'GU'],
+        ['Hawaii', 'HI'],
+        ['Idaho', 'ID'],
+        ['Illinois', 'IL'],
+        ['Indiana', 'IN'],
+        ['Iowa', 'IA'],
+        ['Kansas', 'KS'],
+        ['Kentucky', 'KY'],
+        ['Louisiana', 'LA'],
+        ['Maine', 'ME'],
+        ['Marshall Islands', 'MH'],
+        ['Maryland', 'MD'],
+        ['Massachusetts', 'MA'],
+        ['Michigan', 'MI'],
+        ['Minnesota', 'MN'],
+        ['Mississippi', 'MS'],
+        ['Missouri', 'MO'],
+        ['Montana', 'MT'],
+        ['Nebraska', 'NE'],
+        ['Nevada', 'NV'],
+        ['New Hampshire', 'NH'],
+        ['New Jersey', 'NJ'],
+        ['New Mexico', 'NM'],
+        ['New York', 'NY'],
+        ['North Carolina', 'NC'],
+        ['North Dakota', 'ND'],
+        ['Northern Mariana Islands', 'NP'],
+        ['Ohio', 'OH'],
+        ['Oklahoma', 'OK'],
+        ['Oregon', 'OR'],
+        ['Pennsylvania', 'PA'],
+        ['Puerto Rico', 'PR'],
+        ['Rhode Island', 'RI'],
+        ['South Carolina', 'SC'],
+        ['South Dakota', 'SD'],
+        ['Tennessee', 'TN'],
+        ['Texas', 'TX'],
+        ['US Virgin Islands', 'VI'],
+        ['Utah', 'UT'],
+        ['Vermont', 'VT'],
+        ['Virginia', 'VA'],
+        ['Washington', 'WA'],
+        ['West Virginia', 'WV'],
+        ['Wisconsin', 'WI'],
+        ['Wyoming', 'WY'],
+    ];
+
+    // So happy that Canada and the US have distinct abbreviations
+    var provinces = [
+        ['Alberta', 'AB'],
+        ['British Columbia', 'BC'],
+        ['Manitoba', 'MB'],
+        ['New Brunswick', 'NB'],
+        ['Newfoundland', 'NF'],
+        ['Northwest Territory', 'NT'],
+        ['Nova Scotia', 'NS'],
+        ['Nunavut', 'NU'],
+        ['Ontario', 'ON'],
+        ['Prince Edward Island', 'PE'],
+        ['Quebec', 'QC'],
+        ['Saskatchewan', 'SK'],
+        ['Yukon', 'YT'],
+    ];
+
+    var regions = states.concat(provinces);
+
+    var i; // Reusable loop variable
+    if (to == 'abbr') {
+        input = input.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+        for (i = 0; i < regions.length; i++) {
+            if (regions[i][0] == input) {
+                return (regions[i][1]);
+            }
+        }
+    } else if (to == 'name') {
+        input = input.toUpperCase();
+        for (i = 0; i < regions.length; i++) {
+            if (regions[i][1] == input) {
+                return (regions[i][0]);
+            }
+        }
+    }
+}
