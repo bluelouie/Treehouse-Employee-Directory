@@ -91,10 +91,10 @@ ul {
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    margin: 25% auto; /* 15% from the top and centered */
     padding: 35px;
     border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
+    width: 95%; /* Could be more or less, depending on screen size */
     border-radius: 10px;
     box-shadow: 10px 12px 15px 5px rgba(0,0,0,0.2);
     max-width: 450px;
@@ -163,6 +163,11 @@ ul {
   }
   .employee span {
     font-size: 14px;
+  }
+
+  .modal-content {
+    width: 50%;
+    margin: 5% auto;
   }
 }
 
